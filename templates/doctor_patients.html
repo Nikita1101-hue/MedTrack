@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Patients{% endblock %}
+{% block content %}
+<h1>Patients</h1>
+<p class="sub">Patients who have booked appointments with you.</p>
+<div class="card">
+  {% if patients %}
+  <div class="wrap"><table>
+    <tr><th>Patient ID</th><th>Name</th><th>Phone</th><th>Email</th><th>Age</th><th>Gender</th><th>Address</th><th>Visits</th><th>Last Appointment</th></tr>
+    {% for p in patients %}
+    <tr><td>{{ p.patient_id }}</td><td>{{ p.name }}</td><td>{{ p.phone }}</td><td>{{ p.email }}</td><td>{{ p.age or '-' }}</td><td>{{ p.gender or '-' }}</td><td>{{ p.address or '-' }}</td><td>{{ p.count }}</td><td>{{ p.last|pdate }}</td></tr>
+    {% endfor %}
+  </table></div>
+  {% else %}<p class="empty">No patients yet.</p>{% endif %}
+</div>
+{% endblock %}

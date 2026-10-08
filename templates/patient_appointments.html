@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}My Appointments{% endblock %}
+{% block content %}
+<h1>My Appointments</h1>
+<div class="card">
+  {% if appointments %}
+  <div class="wrap"><table>
+    <tr><th>ID</th><th>Doctor</th><th>Date</th><th>Time</th><th>Reason</th><th>Status</th><th>Action</th></tr>
+    {% for a in appointments %}
+    <tr>
+      <td>{{ a.appointment_id }}</td><td>{{ a.doctor_name|dr }}</td><td>{{ a.date|pdate }}</td><td>{{ a.time }}</td><td>{{ a.reason }}</td>
+      <td><span class="badge badge-{{ a.status|lower }}">{{ a.status }}</span></td>
+      <td>
+        {% if a.status in ['Pending','Confirmed'] %}
+        <form method="post" action="{{ url_for('cancel_appointment', appointment_id=a.appointment_id) }}">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="btn sm ghost-danger" type="submit">Cancel</button></form>
+        {% elif a.status == 'Completed' %}<a href="{{ url_for('patient_diagnosis') }}">View diagnosis</a>
+        {% else %}-{% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </table></div>
+  {% else %}<p class="empty">You have no appointments yet.</p>{% endif %}
+  <a class="btn" href="{{ url_for('book_appointment') }}">Book Appointment</a>
+</div>
+{% endblock %}

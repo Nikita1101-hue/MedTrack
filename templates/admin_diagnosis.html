@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Diagnosis Records{% endblock %}
+{% block content %}
+<h1>Diagnosis Records</h1>
+<div class="card">
+  {% if records %}
+  <div class="wrap"><table>
+    <tr><th>ID</th><th>Patient</th><th>Doctor</th><th>Appointment</th><th>Diagnosis</th><th>Prescription</th><th>Notes</th><th>Created</th></tr>
+    {% for r in records %}
+    <tr><td>{{ r.diagnosis_id }}</td><td>{{ patients[r.patient_id].name if r.patient_id in patients else r.patient_id }}</td><td>{{ doctors[r.doctor_id].name|dr if r.doctor_id in doctors else r.doctor_id }}</td><td>{{ r.appointment_id }}</td><td>{{ r.diagnosis }}</td><td>{{ r.prescription or '-' }}</td><td>{{ r.medical_notes or '-' }}</td><td>{{ r.created_at|pdt }}</td></tr>
+    {% endfor %}
+  </table></div>
+  {% else %}<p class="empty">No diagnosis records yet.</p>{% endif %}
+</div>
+{% endblock %}

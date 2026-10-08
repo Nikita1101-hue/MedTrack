@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Book Appointment{% endblock %}
+{% block content %}
+<h1>Book Appointment</h1>
+<p class="sub">Choose a doctor, date and time. The doctor will confirm your request.</p>
+<div class="card">
+  {% if doctors %}
+  <form method="post" action="{{ url_for('book_appointment') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <label for="doctor_id">Doctor</label>
+    <select id="doctor_id" name="doctor_id" required>
+      <option value="">Select a doctor</option>
+      {% for d in doctors %}
+      <option value="{{ d.doctor_id }}" {{ 'selected' if form.get('doctor_id') == d.doctor_id }}>{{ d.name|dr }} - {{ d.specialization }} ({{ d.availability }})</option>
+      {% endfor %}
+    </select>
+    <div class="row">
+      <div><label for="date">Appointment Date</label><input id="date" name="date" type="date" min="{{ today }}" required value="{{ form.get('date','') }}"></div>
+      <div><label for="time">Appointment Time</label>
+        <select id="time" name="time" required><option value="">Select time</option>
+        {% for s in slots %}<option {{ 'selected' if form.get('time') == s }}>{{ s }}</option>{% endfor %}</select></div>
+    </div>
+    <label for="reason">Reason for Visit</label>
+    <textarea id="reason" name="reason" required maxlength="500">{{ form.get('reason','') }}</textarea>
+    <div class="form-actions"><button class="btn" type="submit">Book Appointment</button></div>
+  </form>
+  {% else %}<p class="empty">No doctors are available yet.</p>{% endif %}
+</div>
+{% endblock %}

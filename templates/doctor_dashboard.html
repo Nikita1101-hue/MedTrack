@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Doctor Dashboard{% endblock %}
+{% block content %}
+<h1>Welcome, {{ session.name|dr }}</h1>
+<p class="sub">{{ today|pdate }}</p>
+<div class="stats">
+  <div class="stat"><b>{{ stats.today }}</b><span>Today's Appointments</span></div>
+  <div class="stat"><b>{{ stats.pending }}</b><span>Pending Appointments</span></div>
+  <div class="stat"><b>{{ stats.completed }}</b><span>Completed Appointments</span></div>
+  <div class="stat"><b>{{ stats.patients }}</b><span>Total Patients</span></div>
+  <div class="stat"><b>{{ stats.diagnosis }}</b><span>Diagnosis Records</span></div>
+</div>
+<div class="card">
+  <h2>Today's Appointments</h2>
+  {% if todays %}
+  <div class="wrap"><table>
+    <tr><th>Time</th><th>Patient</th><th>Reason</th><th>Status</th></tr>
+    {% for a in todays %}<tr><td>{{ a.time }}</td><td>{{ a.patient_name }}</td><td>{{ a.reason }}</td><td><span class="badge badge-{{ a.status|lower }}">{{ a.status }}</span></td></tr>{% endfor %}
+  </table></div>
+  {% else %}<p class="empty">No appointments today.</p>{% endif %}
+</div>
+<div class="card">
+  <h2>Pending Requests</h2>
+  {% if pending %}
+  <div class="wrap"><table>
+    <tr><th>Patient</th><th>Date</th><th>Time</th><th>Reason</th><th>Action</th></tr>
+    {% for a in pending %}<tr><td>{{ a.patient_name }}</td><td>{{ a.date|pdate }}</td><td>{{ a.time }}</td><td>{{ a.reason }}</td>
+      <td>{% set next = 'dashboard' %}{% include "_appt_actions.html" %}</td></tr>{% endfor %}
+  </table></div>
+  {% else %}<p class="empty">No pending requests.</p>{% endif %}
+</div>
+{% endblock %}

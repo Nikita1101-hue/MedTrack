@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Patient Dashboard{% endblock %}
+{% block content %}
+<h1>Welcome, {{ session.name }}</h1>
+<p class="sub">Here is a summary of your healthcare activity.</p>
+<div class="stats">
+  <div class="stat"><b>{{ stats.total }}</b><span>Total Appointments</span></div>
+  <div class="stat"><b>{{ stats.upcoming }}</b><span>Upcoming Appointments</span></div>
+  <div class="stat"><b>{{ stats.completed }}</b><span>Completed Appointments</span></div>
+  <div class="stat"><b>{{ stats.diagnosis }}</b><span>Diagnosis Records</span></div>
+  <div class="stat"><b>{{ stats.unread }}</b><span>Unread Notifications</span></div>
+</div>
+<div class="card">
+  <h2>Upcoming Appointments</h2>
+  {% if upcoming %}
+  <div class="wrap"><table>
+    <tr><th>ID</th><th>Doctor</th><th>Date</th><th>Time</th><th>Status</th></tr>
+    {% for a in upcoming %}
+    <tr><td>{{ a.appointment_id }}</td><td>{{ a.doctor_name|dr }}</td><td>{{ a.date|pdate }}</td><td>{{ a.time }}</td>
+        <td><span class="badge badge-{{ a.status|lower }}">{{ a.status }}</span></td></tr>
+    {% endfor %}
+  </table></div>
+  {% else %}<p class="empty">No upcoming appointments.</p>{% endif %}
+  <a class="btn" href="{{ url_for('book_appointment') }}">Book Appointment</a>
+</div>
+{% endblock %}

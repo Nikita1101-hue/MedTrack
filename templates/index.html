@@ -1,0 +1,1251 @@
+{% extends "base.html" %}
+{% set layout = 'public' %}
+{% block title %}Smart Healthcare Management{% endblock %}
+{% block public %}
+<style>
+/* ==========================================================================
+   LANDING PAGE PROFESSIONAL BLUE THEME (MATCHING ORTHOC MEDICAL DESIGN)
+   ========================================================================== */
+
+/* Brand & Typography */
+:root {
+  --med-blue: #0284c7;
+  --med-blue-dark: #0369a1;
+  --med-navy: #0f2b5c;
+  --med-navy-dark: #071739;
+  --med-light-blue: #e0f2fe;
+  --med-cyan-soft: #f0f9ff;
+  --med-accent: #38bdf8;
+  --med-text-dark: #0f172a;
+  --med-text-muted: #64748b;
+  --med-pill-r: 9999px;
+}
+
+/* Base resets & fonts for landing sections */
+.landing-wrap {
+  overflow-x: hidden;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: var(--med-text-dark);
+}
+
+.landing-wrap * {
+  box-sizing: border-box;
+}
+
+.landing-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* Pill buttons */
+.btn-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 2.2rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  border-radius: var(--med-pill-r);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  border: 2px solid transparent;
+}
+.btn-pill-cyan {
+  background: var(--med-blue);
+  color: #ffffff;
+  box-shadow: 0 8px 20px rgba(2, 132, 199, 0.25);
+}
+.btn-pill-cyan:hover {
+  background: var(--med-blue-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(2, 132, 199, 0.35);
+}
+.btn-pill-white {
+  background: #ffffff;
+  color: var(--med-blue);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+.btn-pill-white:hover {
+  background: #f8fafc;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.18);
+}
+.btn-pill-outline-white {
+  background: transparent;
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.7);
+}
+.btn-pill-outline-white:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: #ffffff;
+}
+
+/* ==========================================================================
+   1. HERO SECTION
+   ========================================================================== */
+.orthoc-hero {
+  position: relative;
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 40%, #1e40af 100%);
+  color: #ffffff;
+  padding-top: 3.5rem;
+  padding-bottom: 0;
+  overflow: hidden;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  align-items: center;
+  gap: 2.5rem;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-content {
+  padding-bottom: 5.5rem;
+}
+
+.hero-content h1 {
+  font-size: clamp(2.4rem, 4.5vw, 3.4rem);
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  line-height: 1.12;
+  margin: 0 0 1.2rem;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+
+.hero-content p {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: #e0f2fe;
+  max-width: 520px;
+  margin: 0 0 2rem;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 2.5rem;
+}
+
+/* Slider dots */
+.hero-dots {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.hero-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.45);
+  transition: all 0.3s;
+}
+.hero-dot.active {
+  width: 26px;
+  border-radius: 99px;
+  background: #ffffff;
+}
+
+/* Hero Doctor Graphic */
+.hero-visual {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  align-self: flex-end;
+  z-index: 2;
+}
+
+.hero-doctor-img {
+  max-width: 100%;
+  height: auto;
+  max-height: 540px;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.25));
+}
+
+/* Floating status card */
+.hero-badge-card {
+  position: absolute;
+  top: 15%;
+  left: -20px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  color: var(--med-text-dark);
+  padding: 0.85rem 1.25rem;
+  border-radius: 16px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.18);
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  font-size: 0.88rem;
+  animation: floatCard 4s ease-in-out infinite;
+  z-index: 3;
+}
+.hero-badge-icon {
+  width: 36px;
+  height: 36px;
+  background: #e0f2fe;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: var(--med-blue);
+  font-weight: bold;
+}
+.hero-badge-card b {
+  display: block;
+  font-size: 0.95rem;
+  color: #0f172a;
+}
+.hero-badge-card span {
+  color: var(--med-text-muted);
+  font-size: 0.82rem;
+}
+
+@keyframes floatCard {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* Signature bottom organic wave */
+.hero-wave-divider {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  margin-top: -60px;
+  z-index: 4;
+}
+.hero-wave-divider svg {
+  position: relative;
+  display: block;
+  width: calc(100% + 1.3px);
+  height: 90px;
+}
+.hero-wave-divider .shape-fill {
+  fill: #ffffff;
+}
+
+/* ==========================================================================
+   2. OUR DEPARTMENTS SECTION
+   ========================================================================== */
+.section-departments {
+  padding: 4.5rem 0 5rem;
+  background: #ffffff;
+  text-align: center;
+}
+
+.sec-head {
+  max-width: 680px;
+  margin: 0 auto 3.5rem;
+}
+
+.sec-head h2 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--med-text-dark);
+  letter-spacing: -0.3px;
+  margin: 0 0 0.8rem;
+}
+
+.sec-head p {
+  color: var(--med-text-muted);
+  font-size: 0.98rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.dept-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  margin-bottom: 3.5rem;
+}
+
+.dept-card {
+  background: #ffffff;
+  padding: 1.5rem 1rem;
+  border-radius: 16px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.dept-card:hover {
+  transform: translateY(-6px);
+}
+
+.dept-icon-circle {
+  width: 82px;
+  height: 82px;
+  margin: 0 auto 1.4rem;
+  border-radius: 50%;
+  background: #f0f9ff;
+  border: 2px solid #38bdf8;
+  display: grid;
+  place-items: center;
+  color: var(--med-blue);
+  transition: all 0.3s ease;
+}
+.dept-card:hover .dept-icon-circle {
+  background: var(--med-blue);
+  color: #ffffff;
+  border-color: var(--med-blue);
+  box-shadow: 0 10px 22px rgba(2, 132, 199, 0.3);
+}
+
+.dept-card h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--med-text-dark);
+  margin: 0 0 0.75rem;
+  letter-spacing: 0.4px;
+}
+
+.dept-card p {
+  color: var(--med-text-muted);
+  font-size: 0.9rem;
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* ==========================================================================
+   3. ABOUT US SECTION
+   ========================================================================== */
+.section-about {
+  padding: 4.5rem 0 5.5rem;
+  background: #ffffff;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr;
+  align-items: center;
+  gap: 4rem;
+}
+
+.about-photo-wrap {
+  position: relative;
+}
+
+.about-photo {
+  width: 100%;
+  max-height: 440px;
+  object-fit: cover;
+  border-radius: 18px;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+  display: block;
+}
+
+.about-text h2 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--med-text-dark);
+  letter-spacing: -0.3px;
+  margin: 0 0 1.2rem;
+}
+
+.about-text p {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--med-text-muted);
+  margin-bottom: 1.4rem;
+}
+
+.about-features {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 1.8rem 0 2.2rem;
+}
+.about-feat-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--med-text-dark);
+}
+.about-feat-item svg {
+  color: var(--med-blue);
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   4. OUR DOCTORS SECTION (CONTRAST DEEP NAVY BLUE)
+   ========================================================================== */
+.section-doctors {
+  background: var(--med-navy);
+  color: #ffffff;
+  padding: 5.5rem 0 6rem;
+  text-align: center;
+}
+
+.section-doctors .sec-head h2 {
+  color: #ffffff;
+}
+
+.section-doctors .sec-head p {
+  color: #93c5fd;
+}
+
+.doctors-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-bottom: 3.5rem;
+}
+
+.doc-card-orthoc {
+  background: #ffffff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+  text-align: center;
+  color: var(--med-text-dark);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+.doc-card-orthoc:hover {
+  transform: translateY(-7px);
+  box-shadow: 0 22px 45px rgba(0, 0, 0, 0.35);
+}
+
+.doc-thumb {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  display: block;
+  background: #f1f5f9;
+}
+
+.doc-body {
+  padding: 1.4rem 1.2rem 1.6rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.doc-body h3 {
+  font-size: 1.22rem;
+  font-weight: 700;
+  color: var(--med-text-dark);
+  margin: 0 0 0.35rem;
+}
+
+.doc-spec-badge {
+  display: inline-block;
+  align-self: center;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--med-blue);
+  margin-bottom: 0.6rem;
+}
+
+.doc-meta {
+  color: var(--med-text-muted);
+  font-size: 0.88rem;
+  line-height: 1.5;
+  margin: 0 0 1.2rem;
+}
+
+.doc-action {
+  margin-top: auto;
+}
+.doc-action .btn-link {
+  display: inline-block;
+  color: var(--med-blue);
+  font-weight: 700;
+  text-decoration: none;
+  font-size: 0.92rem;
+  padding: 0.45rem 1.2rem;
+  border: 1.5px solid var(--med-blue);
+  border-radius: var(--med-pill-r);
+  transition: all 0.2s;
+}
+.doc-action .btn-link:hover {
+  background: var(--med-blue);
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   5. GET IN TOUCH SECTION
+   ========================================================================== */
+.section-contact {
+  padding: 5rem 0 5.5rem;
+  background: #ffffff;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3.5rem;
+  align-items: stretch;
+}
+
+.contact-form-side h2 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--med-text-dark);
+  letter-spacing: -0.3px;
+  margin: 0 0 1.6rem;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.contact-input {
+  width: 100%;
+  padding: 0.85rem 1.1rem;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: var(--med-text-dark);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background: #ffffff;
+}
+.contact-input:focus {
+  border-color: var(--med-blue);
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+}
+
+.contact-textarea {
+  min-height: 130px;
+  resize: vertical;
+}
+
+.contact-btn {
+  align-self: flex-start;
+  margin-top: 0.5rem;
+}
+
+/* Map / Clinic Info Card */
+.contact-map-side {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+  border: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  background: #f8fafc;
+}
+
+.map-visual-box {
+  background: #e2e8f0;
+  height: 240px;
+  position: relative;
+  overflow: hidden;
+  background-image: radial-gradient(#cbd5e1 1.5px, transparent 1.5px);
+  background-size: 20px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.map-pin-pulse {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  z-index: 2;
+}
+.map-pin-pulse svg {
+  color: #ef4444;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));
+  animation: bouncePin 2s infinite ease-in-out;
+}
+.map-pin-badge {
+  background: #ffffff;
+  padding: 0.4rem 0.9rem;
+  border-radius: 99px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  color: var(--med-text-dark);
+}
+@keyframes bouncePin {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.clinic-info-list {
+  padding: 1.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.clinic-info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  font-size: 0.92rem;
+  color: var(--med-text-dark);
+}
+.clinic-info-item svg {
+  color: var(--med-blue);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* ==========================================================================
+   6. TESTIMONIAL SECTION
+   ========================================================================== */
+.section-testimonial {
+  padding: 4.5rem 0 5.5rem;
+  background: #ffffff;
+  text-align: center;
+}
+
+.testimonial-card-wrap {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.testimonial-avatar {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--med-accent);
+  box-shadow: 0 8px 20px rgba(2, 132, 199, 0.2);
+  margin: 0 auto 1.5rem;
+  display: block;
+}
+
+.testimonial-quote {
+  font-size: 1.08rem;
+  line-height: 1.7;
+  color: var(--med-text-muted);
+  font-style: italic;
+  margin: 0 0 1.5rem;
+}
+
+.testimonial-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--med-text-dark);
+  margin: 0 0 0.2rem;
+}
+
+.testimonial-role {
+  color: var(--med-blue);
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 1.8rem;
+}
+
+.testimonial-nav-arrows {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+.test-arrow-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--med-blue);
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+}
+.test-arrow-btn:hover {
+  background: var(--med-blue-dark);
+  transform: scale(1.06);
+}
+
+/* ==========================================================================
+   7. FOOTER SECTION (RICH 4-COLUMN NAVY BLUE)
+   ========================================================================== */
+.orthoc-footer {
+  background: var(--med-navy-dark);
+  color: #94a3b8;
+  padding: 5rem 0 2rem;
+  font-size: 0.93rem;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 0.9fr 1.3fr;
+  gap: 3rem;
+  margin-bottom: 3.5rem;
+}
+
+.footer-col h4 {
+  color: #ffffff;
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 0 0 1.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.footer-col p {
+  line-height: 1.65;
+  margin: 0 0 1.2rem;
+  color: #cbd5e1;
+}
+
+.footer-contact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin-bottom: 1.5rem;
+}
+.footer-contact-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #cbd5e1;
+}
+.footer-contact-item svg {
+  color: var(--med-accent);
+  flex-shrink: 0;
+}
+
+.footer-social-links {
+  display: flex;
+  gap: 0.75rem;
+}
+.footer-social-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.footer-social-btn:hover {
+  background: var(--med-blue);
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.footer-nav-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+.footer-nav-links a {
+  color: #cbd5e1;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-nav-links a:hover {
+  color: var(--med-accent);
+}
+
+.footer-newsletter-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.newsletter-input {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.06);
+  color: #ffffff;
+  font-size: 0.92rem;
+  outline: none;
+}
+.newsletter-input:focus {
+  border-color: var(--med-accent);
+}
+.newsletter-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background: var(--med-blue);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.newsletter-btn:hover {
+  background: var(--med-blue-dark);
+}
+
+.footer-bottom-bar {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 2rem;
+  text-align: center;
+  font-size: 0.88rem;
+  color: #64748b;
+}
+
+/* ==========================================================================
+   RESPONSIVE BREAKPOINTS
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .dept-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+  }
+}
+
+@media (max-width: 860px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .hero-content {
+    padding-bottom: 2rem;
+  }
+  .hero-content p {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .hero-actions {
+    justify-content: center;
+  }
+  .hero-dots {
+    justify-content: center;
+  }
+  .hero-badge-card {
+    left: 10px;
+    top: 5%;
+  }
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  .doctors-grid {
+    grid-template-columns: 1fr;
+  }
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+}
+
+@media (max-width: 580px) {
+  .dept-grid {
+    grid-template-columns: 1fr;
+  }
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
+<div class="landing-wrap">
+
+  <!-- ========================================================================
+       1. HERO SECTION
+       ======================================================================== -->
+  <section class="orthoc-hero">
+    <div class="landing-container">
+      <div class="hero-grid">
+        <div class="hero-content">
+          <h1>WE PROVIDE BEST<br>HEALTHCARE</h1>
+          <p>
+            MedTrack delivers intelligent cloud healthcare management with instant doctor appointments, real-time diagnostic reports, and encrypted medical records connected seamlessly through AWS.
+          </p>
+          <div class="hero-actions">
+            {% if session.get('role') %}
+              <a class="btn-pill btn-pill-white" href="{{ url_for('dashboard') }}">Go to Dashboard &rarr;</a>
+            {% else %}
+              <a class="btn-pill btn-pill-white" href="{{ url_for('login', role='patient') }}">Book Appointment</a>
+              <a class="btn-pill btn-pill-outline-white" href="{{ url_for('register') }}">Register Now</a>
+            {% endif %}
+          </div>
+          <div class="hero-dots">
+            <span class="hero-dot active"></span>
+            <span class="hero-dot"></span>
+            <span class="hero-dot"></span>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <!-- Floating status badge -->
+          <div class="hero-badge-card" aria-hidden="true">
+            <div class="hero-badge-icon">✓</div>
+            <div>
+              <b>Online Consultation</b>
+              <span>Certified Specialists Available</span>
+            </div>
+          </div>
+          <img class="hero-doctor-img" src="{{ url_for('static', filename='images/hero_doctor.png') }}" alt="MedTrack Chief Physician">
+        </div>
+      </div>
+    </div>
+
+    <!-- Organic Wave Shape Divider -->
+    <div class="hero-wave-divider">
+      <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M0,0 C150,90 380,110 580,70 C780,30 980,100 1200,40 L1200,120 L0,120 Z" class="shape-fill"></path>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       2. OUR DEPARTMENTS SECTION
+       ======================================================================== -->
+  <section class="section-departments" id="departments">
+    <div class="landing-container">
+      <div class="sec-head">
+        <h2>OUR DEPARTMENTS</h2>
+        <p>Specialized clinical care and digital coordination designed to support your wellness at every stage of life.</p>
+      </div>
+
+      <div class="dept-grid">
+        <!-- Cardiology -->
+        <div class="dept-card">
+          <div class="dept-icon-circle" aria-hidden="true">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+            </svg>
+          </div>
+          <h3>CARDIOLOGY</h3>
+          <p>Comprehensive cardiovascular diagnosis, continuous monitoring, and specialized heart wellness plans.</p>
+        </div>
+
+        <!-- Diagnosis -->
+        <div class="dept-card">
+          <div class="dept-icon-circle" aria-hidden="true">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+              <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
+              <path d="M9 12h6"/>
+              <path d="M9 16h6"/>
+            </svg>
+          </div>
+          <h3>DIAGNOSIS</h3>
+          <p>Digital medical reports, prescription history, and accurate laboratory findings available instantly.</p>
+        </div>
+
+        <!-- Surgery -->
+        <div class="dept-card">
+          <div class="dept-icon-circle" aria-hidden="true">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="9"/>
+              <path d="M12 8v8"/>
+              <path d="M8 12h8"/>
+            </svg>
+          </div>
+          <h3>SURGERY</h3>
+          <p>Pre-operative evaluations, minimally invasive surgical procedures, and post-operative monitoring.</p>
+        </div>
+
+        <!-- First Aid -->
+        <div class="dept-card">
+          <div class="dept-icon-circle" aria-hidden="true">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="7" width="18" height="13" rx="2"/>
+              <path d="M16 7V4a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3"/>
+              <path d="M12 11v5"/>
+              <path d="M9.5 13.5h5"/>
+            </svg>
+          </div>
+          <h3>FIRST AID</h3>
+          <p>Rapid emergency triage, priority consultations, and 24/7 clinical healthcare assistance.</p>
+        </div>
+      </div>
+
+      <div>
+        <a class="btn-pill btn-pill-cyan" href="{{ url_for('register') }}">View All Services</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Anchor alias for services -->
+  <div id="services"></div>
+
+  <!-- ========================================================================
+       3. ABOUT US SECTION
+       ======================================================================== -->
+  <section class="section-about" id="about">
+    <div class="landing-container">
+      <div class="about-grid">
+        <div class="about-photo-wrap">
+          <img class="about-photo" src="{{ url_for('static', filename='images/about_doctor.jpg') }}" alt="MedTrack Medical Facility">
+        </div>
+
+        <div class="about-text">
+          <h2>ABOUT US</h2>
+          <p>
+            MedTrack is a modern, unified healthcare management platform designed to make patient-doctor interactions simple, secure, and transparent. We combine intuitive appointment scheduling with encrypted digital diagnosis storage to ensure your care never stops.
+          </p>
+          <p>
+            Powered by high-availability cloud architecture with Amazon DynamoDB and AWS EC2, MedTrack keeps medical records confidential while ensuring they are accessible to patients and authorized doctors at a moment's notice.
+          </p>
+
+          <div class="about-features">
+            <div class="about-feat-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Verified Specialists</span>
+            </div>
+            <div class="about-feat-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Instant Confirmations</span>
+            </div>
+            <div class="about-feat-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Digital Prescriptions</span>
+            </div>
+            <div class="about-feat-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Cloud Security</span>
+            </div>
+          </div>
+
+          <a class="btn-pill btn-pill-cyan" href="{{ url_for('login') }}">Read More</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       4. OUR DOCTORS SECTION (BLUE THEME)
+       ======================================================================== -->
+  <section class="section-doctors" id="doctors">
+    <div class="landing-container">
+      <div class="sec-head">
+        <h2>OUR DOCTORS</h2>
+        <p>Meet our experienced physicians dedicated to giving you the highest quality medical care.</p>
+      </div>
+
+      <div class="doctors-grid">
+        {% if doctors and doctors|length > 0 %}
+          {% for d in doctors %}
+          <div class="doc-card-orthoc">
+            <img class="doc-thumb" src="{{ url_for('static', filename='images/doc' ~ ((loop.index0 % 3) + 1) ~ '.jpg') }}" alt="{{ d.name }}">
+            <div class="doc-body">
+              <h3>{{ d.name|dr }}</h3>
+              <div class="doc-spec-badge">{{ d.specialization }}</div>
+              <div class="doc-meta">
+                {{ d.experience }} Years Experience<br>
+                {{ d.hospital or 'MedTrack Central Hospital' }}
+              </div>
+              <div class="doc-action">
+                <a class="btn-link" href="{{ url_for('login', role='patient') }}">Book Visit</a>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        {% else %}
+          <!-- Sample Doctor Cards matching screenshot layout -->
+          <div class="doc-card-orthoc">
+            <img class="doc-thumb" src="{{ url_for('static', filename='images/doc1.jpg') }}" alt="Dr. Ananya Sharma">
+            <div class="doc-body">
+              <h3>Dr. Ananya Sharma</h3>
+              <div class="doc-spec-badge">Cardiologist</div>
+              <div class="doc-meta">
+                12 Years Experience<br>
+                Metro Heart Institute
+              </div>
+              <div class="doc-action">
+                <a class="btn-link" href="{{ url_for('register') }}">Book Visit</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="doc-card-orthoc">
+            <img class="doc-thumb" src="{{ url_for('static', filename='images/doc2.jpg') }}" alt="Dr. Rajesh Patel">
+            <div class="doc-body">
+              <h3>Dr. Rajesh Patel</h3>
+              <div class="doc-spec-badge">General Physician</div>
+              <div class="doc-meta">
+                15 Years Experience<br>
+                City Healthcare Clinic
+              </div>
+              <div class="doc-action">
+                <a class="btn-link" href="{{ url_for('register') }}">Book Visit</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="doc-card-orthoc">
+            <img class="doc-thumb" src="{{ url_for('static', filename='images/doc3.jpg') }}" alt="Dr. Priya Mehta">
+            <div class="doc-body">
+              <h3>Dr. Priya Mehta</h3>
+              <div class="doc-spec-badge">Pediatrician</div>
+              <div class="doc-meta">
+                10 Years Experience<br>
+                Sunrise Children Hospital
+              </div>
+              <div class="doc-action">
+                <a class="btn-link" href="{{ url_for('register') }}">Book Visit</a>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+
+      <div>
+        <a class="btn-pill btn-pill-cyan" href="{{ url_for('register') }}">View All Doctors</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       5. GET IN TOUCH SECTION
+       ======================================================================== -->
+  <section class="section-contact" id="contact">
+    <div class="landing-container">
+      <div class="contact-grid">
+        <div class="contact-form-side">
+          <h2>GET IN TOUCH</h2>
+          <form class="contact-form" onsubmit="event.preventDefault(); alert('Thank you for reaching out! Our team will contact you shortly.');">
+            <input class="contact-input" type="text" placeholder="Your Name" required>
+            <input class="contact-input" type="tel" placeholder="Phone Number" required>
+            <input class="contact-input" type="email" placeholder="Email" required>
+            <textarea class="contact-input contact-textarea" placeholder="Message" required></textarea>
+            <button class="btn-pill btn-pill-cyan contact-btn" type="submit">SEND</button>
+          </form>
+        </div>
+
+        <div class="contact-map-side">
+          <div class="map-visual-box">
+            <div class="map-pin-pulse">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+              </svg>
+              <div class="map-pin-badge">MedTrack Medical Center</div>
+            </div>
+          </div>
+          <div class="clinic-info-list">
+            <div class="clinic-info-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span>45 Healthcare Boulevard, Technology Park, Sector 4</span>
+            </div>
+            <div class="clinic-info-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <span>Monday &ndash; Saturday: 8:00 AM &ndash; 9:00 PM (Emergency 24/7)</span>
+            </div>
+            <div class="clinic-info-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <span>+91 00000 00000 / support@medtrack.example</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       6. TESTIMONIAL SECTION
+       ======================================================================== -->
+  <section class="section-testimonial">
+    <div class="landing-container">
+      <div class="sec-head">
+        <h2>TESTIMONIAL</h2>
+      </div>
+
+      <div class="testimonial-card-wrap">
+        <img class="testimonial-avatar" src="{{ url_for('static', filename='images/testimonial.jpg') }}" alt="Patient">
+        <p class="testimonial-quote">
+          &ldquo;MedTrack transformed how our family schedules consultations and accesses diagnosis prescriptions. Booking an appointment takes less than 30 seconds and our doctor has all visit history right there. Exceptional service!&rdquo;
+        </p>
+        <div class="testimonial-name">Rahul Verma</div>
+        <div class="testimonial-role">Verified Patient</div>
+
+        <div class="testimonial-nav-arrows">
+          <button class="test-arrow-btn" type="button" aria-label="Previous review" onclick="alert('Viewing earlier patient review.');">&larr;</button>
+          <button class="test-arrow-btn" type="button" aria-label="Next review" onclick="alert('Viewing next patient review.');">&rarr;</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       7. FOOTER SECTION (RICH 4-COLUMN MEDICAL BLUE)
+       ======================================================================== -->
+  <footer class="orthoc-footer">
+    <div class="landing-container">
+      <div class="footer-grid">
+        <!-- Col 1: Reach Us -->
+        <div class="footer-col">
+          <h4>Reach Us</h4>
+          <div class="footer-contact-list">
+            <div class="footer-contact-item">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span>Healthcare City, Suite 100</span>
+            </div>
+            <div class="footer-contact-item">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <span>+91 00000 00000</span>
+            </div>
+            <div class="footer-contact-item">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              <span>support@medtrack.example</span>
+            </div>
+          </div>
+          <div class="footer-social-links">
+            <a class="footer-social-btn" href="#" aria-label="Facebook">f</a>
+            <a class="footer-social-btn" href="#" aria-label="Twitter">𝕏</a>
+            <a class="footer-social-btn" href="#" aria-label="LinkedIn">in</a>
+            <a class="footer-social-btn" href="#" aria-label="Instagram">ig</a>
+          </div>
+        </div>
+
+        <!-- Col 2: About -->
+        <div class="footer-col">
+          <h4>About</h4>
+          <p>
+            MedTrack provides reliable, scalable clinic management on AWS cloud infrastructure. Connected diagnostics, patient history, and instant appointment booking in one place.
+          </p>
+        </div>
+
+        <!-- Col 3: Links -->
+        <div class="footer-col">
+          <h4>Links</h4>
+          <ul class="footer-nav-links">
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('index') }}#about">About Us</a></li>
+            <li><a href="{{ url_for('index') }}#departments">Departments</a></li>
+            <li><a href="{{ url_for('index') }}#doctors">Our Doctors</a></li>
+            <li><a href="{{ url_for('index') }}#contact">Contact Us</a></li>
+            <li><a href="{{ url_for('login') }}">Portal Login</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Newsletter -->
+        <div class="footer-col">
+          <h4>Newsletter</h4>
+          <p>Subscribe for health advice, updates and clinic announcements.</p>
+          <form class="footer-newsletter-form" onsubmit="event.preventDefault(); alert('Subscribed successfully!');">
+            <input class="newsletter-input" type="email" placeholder="Your email address" required>
+            <button class="newsletter-btn" type="submit">Subscribe</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="footer-bottom-bar">
+        &copy; 2026 MedTrack. All Rights Reserved. Smart Healthcare Management Connected Through the Cloud.
+      </div>
+    </div>
+  </footer>
+
+</div>
+{% endblock %}

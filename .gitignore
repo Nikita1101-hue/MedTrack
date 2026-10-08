@@ -1,0 +1,17 @@
+# Secrets - NEVER commit these
+.env
+*.pem
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# Local development data (JSON file used instead of DynamoDB)
+data/
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/

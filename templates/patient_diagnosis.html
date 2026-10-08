@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Diagnosis Records{% endblock %}
+{% block content %}
+<h1>Diagnosis Records</h1>
+<p class="sub">Records are added by your doctor. You can view them but not edit them.</p>
+{% for r in records %}
+<div class="card">
+  <h2>Diagnosis Record <span class="muted" style="font-weight:400;font-size:.9rem">{{ r.diagnosis_id }}</span></h2>
+  <dl class="rec">
+    <dt>Doctor</dt><dd>{{ doctors[r.doctor_id].name|dr if r.doctor_id in doctors else 'Doctor' }}</dd>
+    <dt>Date</dt><dd>{{ appts[r.appointment_id].date|pdate if r.appointment_id in appts else r.created_at|pdt }}</dd>
+    <dt>Appointment</dt><dd>{{ r.appointment_id }}</dd>
+    <dt>Diagnosis</dt><dd>{{ r.diagnosis }}</dd>
+    <dt>Prescription</dt><dd>{{ r.prescription or 'None' }}</dd>
+    <dt>Medical Notes</dt><dd>{{ r.medical_notes or 'None' }}</dd>
+  </dl>
+</div>
+{% else %}
+<div class="card"><p class="empty">No diagnosis records yet.</p></div>
+{% endfor %}
+{% endblock %}

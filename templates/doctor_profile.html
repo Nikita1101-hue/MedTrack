@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}My Profile{% endblock %}
+{% block content %}
+<h1>My Profile</h1>
+<p class="sub">Doctor ID: <b>{{ d.doctor_id }}</b> - patients see this information when they browse doctors.</p>
+<div class="card">
+  <form method="post" action="{{ url_for('doctor_profile') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <div class="row">
+      <div><label for="name">Name</label><input id="name" name="name" required maxlength="100" value="{{ d.name }}"></div>
+      <div><label for="email">Email</label><input id="email" value="{{ d.email }}" disabled></div>
+      <div><label for="phone">Phone</label><input id="phone" name="phone" type="tel" required value="{{ d.phone }}"></div>
+      <div><label for="specialization">Specialization</label><input id="specialization" name="specialization" required maxlength="80" value="{{ d.specialization }}"></div>
+      <div><label for="qualification">Qualification</label><input id="qualification" name="qualification" required maxlength="120" value="{{ d.qualification }}"></div>
+      <div><label for="experience">Experience (years)</label><input id="experience" name="experience" type="number" min="0" max="60" required value="{{ d.experience }}"></div>
+      <div><label for="availability">Availability</label><input id="availability" name="availability" required maxlength="100" value="{{ d.availability }}"></div>
+      <div><label for="hospital">Hospital / Clinic</label><input id="hospital" name="hospital" required maxlength="120" value="{{ d.hospital }}"></div>
+    </div>
+    <div class="form-actions"><button class="btn" type="submit">Save Profile</button></div>
+  </form>
+</div>
+{% endblock %}

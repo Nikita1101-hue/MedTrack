@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}My Profile{% endblock %}
+{% block content %}
+<h1>My Profile</h1>
+<p class="sub">Patient ID: <b>{{ p.patient_id }}</b></p>
+<div class="card">
+  <form method="post" action="{{ url_for('patient_profile') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <div class="row">
+      <div><label for="name">Full Name</label><input id="name" name="name" required maxlength="100" value="{{ p.name }}"></div>
+      <div><label for="email">Email</label><input id="email" value="{{ p.email }}" disabled></div>
+      <div><label for="phone">Phone</label><input id="phone" name="phone" type="tel" required value="{{ p.phone }}"></div>
+      <div><label for="age">Age</label><input id="age" name="age" type="number" min="1" max="120" value="{{ p.age }}"></div>
+      <div><label for="gender">Gender</label>
+        <select id="gender" name="gender"><option value="">Select</option>
+        {% for g in genders %}<option {{ 'selected' if p.gender == g }}>{{ g }}</option>{% endfor %}</select></div>
+    </div>
+    <label for="address">Address</label>
+    <textarea id="address" name="address" maxlength="300">{{ p.address }}</textarea>
+    <div class="form-actions"><button class="btn" type="submit">Save Profile</button></div>
+  </form>
+</div>
+{% endblock %}

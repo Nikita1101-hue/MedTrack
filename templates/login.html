@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% set layout = 'public' %}
+{% block title %}Login{% endblock %}
+{% block public %}
+<div class="auth"><div class="card">
+  <h1>{% if role == 'doctor' %}Doctor Login{% elif role == 'patient' %}Patient Login{% else %}Login{% endif %}</h1>
+  <p class="sub">Patients, doctors and administrators sign in here.</p>
+  <form method="post" action="{{ url_for('login') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <label for="email">Email</label>
+    <input id="email" name="email" type="email" required autocomplete="username">
+    <label for="password">Password</label>
+    <input id="password" name="password" type="password" required autocomplete="current-password">
+    <div class="form-actions"><button class="btn" type="submit">Login</button></div>
+  </form>
+  <p class="hint" style="margin-top:1rem">New here? <a href="{{ url_for('register') }}">Create an account</a></p>
+</div></div>
+{% endblock %}

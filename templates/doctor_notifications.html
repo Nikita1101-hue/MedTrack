@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Notifications{% endblock %}
+{% block content %}
+<h1>Notifications</h1>
+<div class="card">
+  <h2>Send a notification to a patient</h2>
+  {% if patients %}
+  <form method="post" action="{{ url_for('doctor_notifications') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <label for="patient_id">Patient</label>
+    <select id="patient_id" name="patient_id" required><option value="">Select a patient</option>{% for p in patients %}<option value="{{ p.patient_id }}">{{ p.name }} ({{ p.patient_id }})</option>{% endfor %}</select>
+    <label for="title">Title</label><input id="title" name="title" required maxlength="100">
+    <label for="message">Message</label><textarea id="message" name="message" required maxlength="500"></textarea>
+    <div class="form-actions"><button class="btn" type="submit">Send</button></div>
+  </form>
+  {% else %}<p class="empty">You can message patients once they have booked with you.</p>{% endif %}
+</div>
+<h2>Your notifications</h2>
+{% include "_notifications.html" %}
+{% endblock %}

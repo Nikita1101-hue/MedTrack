@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}MedTrack{% endblock %} | MedTrack</title>
+<link rel="icon" href="{{ url_for('static', filename='images/logo.svg') }}">
+<style>
+:root{--teal:#1e40af;--teal2:#2563eb;--mint:#eff6ff;--bg:#f8fafc;--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--card:#fff;--red:#b42318;--amber:#b45309;--green:#15803d;--blue:#1d4ed8;--r:14px}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-size:16px;line-height:1.55;color:var(--ink);background:var(--bg)}
+a{color:var(--teal)}
+h1,h2,h3{line-height:1.2;margin:0 0 .5em}
+h1{font-size:1.7rem}h2{font-size:1.25rem}h3{font-size:1.05rem}
+:focus-visible{outline:3px solid #93c5fd;outline-offset:2px}
+.btn{display:inline-block;border:2px solid var(--teal);background:var(--teal);color:#fff;padding:.55em 1.1em;border-radius:10px;font:inherit;font-weight:600;text-decoration:none;cursor:pointer}
+.btn:hover{background:#1e3a8a;border-color:#1e3a8a}
+.btn.outline{background:transparent;color:var(--teal)}
+.btn.outline:hover{background:var(--mint)}
+.btn.danger{background:var(--red);border-color:var(--red)}
+.btn.ghost-danger{background:transparent;color:var(--red);border-color:var(--red)}
+.btn.sm{padding:.3em .75em;font-size:.88rem}
+.btn.light{background:#fff;color:var(--teal);border-color:#fff}
+/* header */
+.top{background:#ffffff;border-bottom:1px solid #e2e8f0;position:sticky;top:0;z-index:50;box-shadow:0 2px 12px rgba(15,23,42,0.04)}
+.top .in{max-width:1200px;margin:auto;padding:.85rem 1.4rem;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:.6rem;font-weight:800;font-size:1.35rem;color:#1e40af;text-decoration:none;letter-spacing:-0.5px}
+.brand img{width:36px;height:36px;border-radius:10px}
+.top nav{margin-left:auto;display:flex;align-items:center;gap:1.3rem;flex-wrap:wrap}
+.top nav a:not(.btn){color:#1e293b;text-decoration:none;font-weight:600;font-size:0.86rem;letter-spacing:0.6px;text-transform:uppercase;transition:color 0.2s}
+.top nav a:not(.btn):hover{color:#0284c7}
+.top form{margin:0}
+.btn.pill{border-radius:9999px;padding:.45em 1.2em}
+/* flash */
+.flashes{max-width:1120px;margin:1rem auto 0;padding:0 1.2rem}
+.flash{padding:.75rem 1rem;border-radius:10px;margin-bottom:.6rem;border:1px solid;font-weight:500}
+.flash.success{background:#ecfdf3;border-color:#a6e9c0;color:#14633a}
+.flash.error{background:#fef3f2;border-color:#fecdca;color:var(--red)}
+/* app layout */
+.app{display:grid;grid-template-columns:250px 1fr;min-height:100vh}
+.side{background:#1e3a8a;color:#dbeafe;padding:1.2rem 1rem;display:flex;flex-direction:column;gap:1rem;position:sticky;top:0;height:100vh;overflow:auto}
+.side .brand{color:#fff}
+.who{background:rgba(255,255,255,.09);border-radius:12px;padding:.7rem .9rem;font-size:.92rem}
+.who b{display:block;color:#fff;font-size:1rem}
+.side nav{display:flex;flex-direction:column;gap:.2rem}
+.side nav a{color:#dbeafe;text-decoration:none;padding:.55rem .8rem;border-radius:10px;display:flex;justify-content:space-between;align-items:center}
+.side nav a:hover{background:rgba(255,255,255,.1)}
+.side nav a.on{background:#fff;color:var(--teal);font-weight:700}
+.pill{background:#f59e0b;color:#fff;border-radius:99px;font-size:.75rem;padding:0 .5rem;font-weight:700}
+.side form{margin-top:auto}
+.side .btn{width:100%;background:transparent;border-color:#93c5fd;color:#dbeafe}
+.main{padding:1.6rem 2rem 3rem;min-width:0}
+.main .flashes{padding:0;margin:0 0 1rem}
+/* cards, grids */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:1.2rem 1.3rem;margin-bottom:1.2rem}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1rem;margin-bottom:1.4rem}
+.stat{background:#fff;border:1px solid var(--line);border-left:5px solid var(--teal2);border-radius:var(--r);padding:1rem 1.1rem}
+.stat b{display:block;font-size:2rem;line-height:1.1}
+.stat span{color:var(--muted);font-size:.92rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem}
+.muted{color:var(--muted)}
+.sub{color:var(--muted);margin:-.3rem 0 1.2rem}
+/* tables */
+.wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.95rem}
+th,td{text-align:left;padding:.65rem .7rem;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--mint);color:#1e3a8a;font-weight:700;white-space:nowrap}
+td form{display:inline;margin:0}
+.badge{display:inline-block;padding:.12rem .6rem;border-radius:99px;font-size:.82rem;font-weight:700}
+.badge-pending{background:#fef3c7;color:var(--amber)}
+.badge-confirmed{background:#dbeafe;color:var(--blue)}
+.badge-completed{background:#dcfce7;color:var(--green)}
+.badge-rejected,.badge-cancelled{background:#fee4e2;color:var(--red)}
+/* forms */
+label{display:block;font-weight:600;margin:.8rem 0 .25rem}
+input,select,textarea{width:100%;padding:.6rem .75rem;border:1.5px solid #cbd5e1;border-radius:10px;font:inherit;background:#fff;color:var(--ink)}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--teal2);box-shadow:0 0 0 3px #dbeafe}
+textarea{min-height:100px;resize:vertical}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0 1rem}
+.form-actions{margin-top:1.2rem;display:flex;gap:.7rem;flex-wrap:wrap}
+.hint{font-size:.85rem;color:var(--muted)}
+.empty{text-align:center;color:var(--muted);padding:1.6rem}
+.notif{border-left:5px solid var(--teal2);background:#fff;border-radius:12px;padding:.8rem 1rem;margin-bottom:.8rem;border-top:1px solid var(--line);border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.notif.unread{background:#eff6ff;border-left-color:#f59e0b}
+.notif h3{margin:0 0 .15rem}
+.notif small{color:var(--muted)}
+.notif form{margin-top:.4rem}
+.rec dt{font-weight:700;margin-top:.7rem;color:#1e3a8a}
+.rec dd{margin:.1rem 0 0;white-space:pre-wrap}
+.kv{display:grid;grid-template-columns:140px 1fr;gap:.35rem .8rem;margin:0}
+.kv dt{color:var(--muted)}.kv dd{margin:0}
+/* public pages */
+.wide{max-width:1120px;margin:auto;padding:0 1.2rem}
+.hero{background:linear-gradient(135deg,#1e3a8a,#2563eb);color:#fff}
+.hero .wide{display:grid;grid-template-columns:1.2fr .8fr;gap:2.5rem;align-items:center;padding-top:4rem;padding-bottom:4rem}
+.hero h1{font-size:3rem;margin-bottom:.2rem}
+.hero .tag{font-size:1.35rem;font-weight:600;color:#bfdbfe;margin-bottom:1rem}
+.hero p{max-width:34rem;color:#dbeafe}
+.hero .btns{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:1.4rem}
+.hero .btn.outline{color:#fff;border-color:#93c5fd}
+.hero .btn.outline:hover{background:rgba(255,255,255,.12)}
+.mock{background:#fff;color:var(--ink);border-radius:18px;padding:1.2rem;box-shadow:0 20px 50px rgba(0,0,0,.25)}
+.mock h3{display:flex;justify-content:space-between;align-items:center}
+.mock .line{display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px dashed var(--line);font-size:.93rem}
+.mock .line:last-child{border:0}
+section.block{padding:3.2rem 0}
+section.block.alt{background:#fff}
+.sec-title{text-align:center;margin-bottom:2rem}
+.sec-title h2{font-size:1.8rem}
+.svc{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:1.3rem}
+.svc .ic{width:44px;height:44px;border-radius:12px;background:var(--mint);color:var(--teal);display:grid;place-items:center;font-weight:800;font-size:1.2rem;margin-bottom:.7rem}
+.doc-card h3{margin-bottom:.1rem}
+.spec{color:var(--teal);font-weight:600}
+.about{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center}
+.foot{background:#1e3a8a;color:#bfdbfe;padding:2.2rem 0 1.2rem}
+.foot .wide{display:flex;gap:2rem;flex-wrap:wrap;justify-content:space-between}
+.foot a{color:#bfdbfe;display:block;text-decoration:none;margin:.2rem 0}
+.foot a:hover{color:#fff}
+.copy{text-align:center;font-size:.88rem;margin-top:1.4rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,.15)}
+.auth{max-width:520px;margin:2.5rem auto;padding:0 1.2rem}
+.center{text-align:center;padding:5rem 1rem}
+.center .big{font-size:5rem;font-weight:800;color:var(--teal2);line-height:1}
+@media (max-width:860px){
+ .app{grid-template-columns:1fr}
+ .side{position:static;height:auto}
+ .side nav{flex-direction:row;flex-wrap:wrap}
+ .main{padding:1.2rem 1rem 2.5rem}
+ .hero .wide,.about{grid-template-columns:1fr}
+ .hero h1{font-size:2.3rem}
+ .kv{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+{% set role = session.get('role') %}
+{% if (layout is defined and layout == 'public') or not role %}
+<header class="top"><div class="in">
+  <a class="brand" href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='images/logo.svg') }}" alt="">MedTrack</a>
+  <nav aria-label="Main">
+    <a href="{{ url_for('index') }}">HOME</a>
+    <a href="{{ url_for('index') }}#about">ABOUT</a>
+    <a href="{{ url_for('index') }}#departments">DEPARTMENTS</a>
+    <a href="{{ url_for('index') }}#doctors">DOCTORS</a>
+    <a href="{{ url_for('index') }}#contact">CONTACT US</a>
+    {% if role %}
+      <a class="btn sm pill" href="{{ url_for('dashboard') }}">My Dashboard</a>
+      <form method="post" action="{{ url_for('logout') }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="btn sm outline pill" type="submit">Logout</button></form>
+    {% else %}
+      <a class="nav-auth" href="{{ url_for('login') }}">LOGIN</a>
+      <a class="btn sm pill" href="{{ url_for('register') }}">REGISTER</a>
+    {% endif %}
+  </nav>
+</div></header>
+<div class="flashes" role="status">{% for cat, msg in get_flashed_messages(with_categories=true) %}<div class="flash {{ cat }}">{{ msg }}</div>{% endfor %}</div>
+{% block public %}{% endblock %}
+{% else %}
+{% set nav = {
+ 'patient': [('patient_dashboard','Dashboard'),('patient_profile','My Profile'),('patient_doctors','Find Doctors'),('book_appointment','Book Appointment'),('patient_appointments','My Appointments'),('patient_diagnosis','Diagnosis'),('patient_notifications','Notifications')],
+ 'doctor': [('doctor_dashboard','Dashboard'),('doctor_profile','My Profile'),('doctor_appointments','Appointments'),('doctor_patients','Patients'),('add_diagnosis','Add Diagnosis'),('doctor_notifications','Notifications')],
+ 'admin': [('admin_dashboard','Dashboard'),('manage_patients','Patients'),('manage_doctors','Doctors'),('manage_appointments','Appointments'),('admin_diagnosis','Diagnosis'),('admin_notifications','Notifications')]
+}[role] %}
+<div class="app">
+  <aside class="side">
+    <a class="brand" href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='images/logo.svg') }}" alt="">MedTrack</a>
+    <div class="who"><b>{% if role == 'doctor' %}{{ session.get('name')|dr }}{% else %}{{ session.get('name') }}{% endif %}</b>{{ role|capitalize }}</div>
+    <nav aria-label="Dashboard">
+      {% for ep, label in nav %}
+      <a href="{{ url_for(ep) }}" class="{{ 'on' if request.endpoint == ep }}">{{ label }}{% if 'notifications' in ep and unread_count() %}<span class="pill">{{ unread_count() }}</span>{% endif %}</a>
+      {% endfor %}
+    </nav>
+    <form method="post" action="{{ url_for('logout') }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="btn" type="submit">Logout</button></form>
+  </aside>
+  <main class="main">
+    <div class="flashes" role="status">{% for cat, msg in get_flashed_messages(with_categories=true) %}<div class="flash {{ cat }}">{{ msg }}</div>{% endfor %}</div>
+    {% block content %}{% endblock %}
+  </main>
+</div>
+{% endif %}
+</body>
+</html>

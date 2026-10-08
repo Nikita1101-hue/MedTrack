@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}System Notifications{% endblock %}
+{% block content %}
+<h1>System Notifications</h1>
+<p class="sub">Latest 200 notifications across all users.</p>
+<div class="card">
+  {% if notifications %}
+  <div class="wrap"><table>
+    <tr><th>When</th><th>User</th><th>Type</th><th>Title</th><th>Message</th><th>Read</th></tr>
+    {% for n in notifications %}
+    <tr><td>{{ n.created_at|pdt }}</td><td>{{ users[n.user_id].name if n.user_id in users else n.user_id }}</td><td>{{ n.type }}</td><td>{{ n.title }}</td><td>{{ n.message }}</td><td>{{ 'Yes' if n.is_read else 'No' }}</td></tr>
+    {% endfor %}
+  </table></div>
+  {% else %}<p class="empty">No notifications yet.</p>{% endif %}
+</div>
+{% endblock %}

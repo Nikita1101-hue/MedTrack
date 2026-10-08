@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block content %}
+<h1>Administrator Dashboard</h1>
+<p class="sub">System overview.</p>
+<div class="stats">
+  <div class="stat"><b>{{ stats.patients }}</b><span>Total Patients</span></div>
+  <div class="stat"><b>{{ stats.doctors }}</b><span>Total Doctors</span></div>
+  <div class="stat"><b>{{ stats.appointments }}</b><span>Total Appointments</span></div>
+  <div class="stat"><b>{{ stats.completed }}</b><span>Completed Appointments</span></div>
+  <div class="stat"><b>{{ stats.pending }}</b><span>Pending Appointments</span></div>
+</div>
+<div class="card">
+  <h2>Recent Appointments</h2>
+  {% if recent %}
+  <div class="wrap"><table>
+    <tr><th>ID</th><th>Patient</th><th>Doctor</th><th>Date</th><th>Time</th><th>Status</th></tr>
+    {% for a in recent %}<tr><td>{{ a.appointment_id }}</td><td>{{ a.patient_name }}</td><td>{{ a.doctor_name|dr }}</td><td>{{ a.date|pdate }}</td><td>{{ a.time }}</td><td><span class="badge badge-{{ a.status|lower }}">{{ a.status }}</span></td></tr>{% endfor %}
+  </table></div>
+  {% else %}<p class="empty">No appointments yet.</p>{% endif %}
+</div>
+{% endblock %}

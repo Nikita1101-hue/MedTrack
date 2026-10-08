@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Manage Patients{% endblock %}
+{% block content %}
+<h1>Patients</h1>
+<div class="card">
+  {% if patients %}
+  <div class="wrap"><table>
+    <tr><th>ID</th><th>Name</th><th>Email</th><th>Phone</th><th>Age</th><th>Gender</th><th>Registered</th><th>Action</th></tr>
+    {% for p in patients %}
+    <tr><td>{{ p.patient_id }}</td><td>{{ p.name }}</td><td>{{ p.email }}</td><td>{{ p.phone }}</td><td>{{ p.age or '-' }}</td><td>{{ p.gender or '-' }}</td><td>{{ p.created_at|pdt }}</td>
+      <td><form method="post" action="{{ url_for('manage_patients') }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="patient_id" value="{{ p.patient_id }}"><button class="btn sm ghost-danger" type="submit">Remove</button></form></td></tr>
+    {% endfor %}
+  </table></div>
+  {% else %}<p class="empty">No patients registered.</p>{% endif %}
+</div>
+{% endblock %}

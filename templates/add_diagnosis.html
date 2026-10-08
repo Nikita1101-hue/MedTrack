@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Add Diagnosis{% endblock %}
+{% block content %}
+<h1>Add Diagnosis</h1>
+<p class="sub">Saving a diagnosis also marks the appointment as Completed and notifies the patient.</p>
+<div class="card">
+  {% if eligible %}
+  <form method="get" action="{{ url_for('add_diagnosis') }}">
+    <label for="appointment_id" style="margin-top:0">Confirmed appointment</label>
+    <select id="appointment_id" name="appointment_id">
+      <option value="">Select an appointment</option>
+      {% for a in eligible %}<option value="{{ a.appointment_id }}" {{ 'selected' if a.appointment_id == selected }}>{{ a.appointment_id }} - {{ a.patient_name }} - {{ a.date|pdate }} {{ a.time }}</option>{% endfor %}
+    </select>
+    <div class="form-actions"><button class="btn sm outline" type="submit">Open Appointment</button></div>
+  </form>
+  {% else %}<p class="empty">No confirmed appointments are waiting for a diagnosis.</p>{% endif %}
+</div>
+{% if chosen %}
+<div class="card">
+  <h2>{{ chosen.patient_name }} <span class="muted" style="font-weight:400;font-size:.9rem">{{ chosen.patient_id }}</span></h2>
+  <dl class="kv" style="margin-bottom:1rem">
+    <dt>Appointment</dt><dd>{{ chosen.appointment_id }} - {{ chosen.date|pdate }} at {{ chosen.time }}</dd>
+    <dt>Reason</dt><dd>{{ chosen.reason }}</dd>
+    {% if chosen_patient %}<dt>Age / Gender</dt><dd>{{ chosen_patient.age or '-' }} / {{ chosen_patient.gender or '-' }}</dd><dt>Phone</dt><dd>{{ chosen_patient.phone }}</dd>{% endif %}
+  </dl>
+  <form method="post" action="{{ url_for('add_diagnosis') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <input type="hidden" name="appointment_id" value="{{ chosen.appointment_id }}">
+    <label for="diagnosis">Diagnosis</label><textarea id="diagnosis" name="diagnosis" required maxlength="1000"></textarea>
+    <label for="prescription">Prescription</label><textarea id="prescription" name="prescription" maxlength="1000"></textarea>
+    <label for="medical_notes">Medical Notes</label><textarea id="medical_notes" name="medical_notes" maxlength="2000"></textarea>
+    <div class="form-actions"><button class="btn" type="submit">Save and Complete Appointment</button></div>
+  </form>
+</div>
+{% endif %}
+<div class="card">
+  <h2>Previous Diagnosis Records</h2>
+  {% if records %}
+  <div class="wrap"><table>
+    <tr><th>ID</th><th>Patient</th><th>Date</th><th>Diagnosis</th><th>Prescription</th><th>Notes</th></tr>
+    {% for r in records %}
+    <tr><td>{{ r.diagnosis_id }}</td><td>{{ patients[r.patient_id].name if r.patient_id in patients else r.patient_id }}</td>
+      <td>{{ appts[r.appointment_id].date|pdate if r.appointment_id in appts else r.created_at|pdt }}</td>
+      <td>{{ r.diagnosis }}</td><td>{{ r.prescription or '-' }}</td><td>{{ r.medical_notes or '-' }}</td></tr>
+    {% endfor %}
+  </table></div>
+  {% else %}<p class="empty">No diagnosis records yet.</p>{% endif %}
+</div>
+{% endblock %}

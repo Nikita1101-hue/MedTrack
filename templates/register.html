@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% set layout = 'public' %}
+{% block title %}Register{% endblock %}
+{% block public %}
+<div class="auth"><div class="card">
+  <h1>Create your account</h1>
+  <p class="sub">Register as a patient or a doctor.</p>
+  <form method="post" action="{{ url_for('register') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <label for="name">Full Name</label>
+    <input id="name" name="name" required maxlength="100" value="{{ form.get('name','') }}">
+    <label for="email">Email</label>
+    <input id="email" name="email" type="email" required maxlength="120" value="{{ form.get('email','') }}">
+    <label for="phone">Phone</label>
+    <input id="phone" name="phone" type="tel" required maxlength="20" placeholder="10 to 15 digits" value="{{ form.get('phone','') }}">
+    <div class="row">
+      <div><label for="password">Password</label><input id="password" name="password" type="password" required minlength="8" autocomplete="new-password"></div>
+      <div><label for="confirm_password">Confirm Password</label><input id="confirm_password" name="confirm_password" type="password" required minlength="8" autocomplete="new-password"></div>
+    </div>
+    <p class="hint">At least 8 characters.</p>
+    <label for="role">Register as</label>
+    <select id="role" name="role" required>
+      <option value="patient" {{ 'selected' if form.get('role') != 'doctor' }}>Patient</option>
+      <option value="doctor" {{ 'selected' if form.get('role') == 'doctor' }}>Doctor</option>
+    </select>
+    <div class="form-actions"><button class="btn" type="submit">Register</button></div>
+  </form>
+  <p class="hint" style="margin-top:1rem">Already registered? <a href="{{ url_for('login') }}">Login</a></p>
+</div></div>
+{% endblock %}

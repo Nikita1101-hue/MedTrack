@@ -1,0 +1,13 @@
+{# Confirm / Reject / Cancel / Complete buttons for a doctor. Expects: a, next #}
+{% if a.status == 'Pending' %}
+  {% for act, label, cls in [('confirm','Confirm','btn sm'),('reject','Reject','btn sm ghost-danger')] %}
+  <form method="post" action="{{ url_for('doctor_appointment_action', appointment_id=a.appointment_id, action=act) }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="next" value="{{ next }}">
+    <button class="{{ cls }}" type="submit">{{ label }}</button></form>
+  {% endfor %}
+{% elif a.status == 'Confirmed' %}
+  <a class="btn sm" href="{{ url_for('add_diagnosis', appointment_id=a.appointment_id) }}">Add Diagnosis</a>
+  <form method="post" action="{{ url_for('doctor_appointment_action', appointment_id=a.appointment_id, action='cancel') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="next" value="{{ next }}">
+    <button class="btn sm ghost-danger" type="submit">Cancel</button></form>
+{% else %}-{% endif %}

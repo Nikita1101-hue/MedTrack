@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Appointments{% endblock %}
+{% block content %}
+<h1>Appointments</h1>
+<form method="get" action="{{ url_for('doctor_appointments') }}" class="card" style="display:flex;gap:.7rem;align-items:end;flex-wrap:wrap">
+  <div><label for="status" style="margin-top:0">Filter by status</label>
+  <select id="status" name="status"><option value="">All</option>{% for s in statuses %}<option {{ 'selected' if s == status }}>{{ s }}</option>{% endfor %}</select></div>
+  <button class="btn" type="submit">Filter</button>
+</form>
+<div class="card">
+  {% if appointments %}
+  <div class="wrap"><table>
+    <tr><th>ID</th><th>Patient</th><th>Patient Info</th><th>Date</th><th>Time</th><th>Reason</th><th>Status</th><th>Action</th></tr>
+    {% for a in appointments %}
+    {% set p = patients.get(a.patient_id) %}
+    <tr><td>{{ a.appointment_id }}<br><span class="muted">{{ a.patient_id }}</span></td><td>{{ a.patient_name }}</td>
+      <td>{% if p %}{{ p.phone }}<br>{{ p.age or '-' }} yrs, {{ p.gender or '-' }}{% else %}-{% endif %}</td>
+      <td>{{ a.date|pdate }}</td><td>{{ a.time }}</td><td>{{ a.reason }}</td>
+      <td><span class="badge badge-{{ a.status|lower }}">{{ a.status }}</span></td>
+      <td>{% set next = 'list' %}{% include "_appt_actions.html" %}</td></tr>
+    {% endfor %}
+  </table></div>
+  {% else %}<p class="empty">No appointments found.</p>{% endif %}
+</div>
+{% endblock %}

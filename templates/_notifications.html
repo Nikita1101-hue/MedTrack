@@ -1,0 +1,16 @@
+{% if notifications %}
+<form method="post" action="{{ url_for('mark_notifications_read') }}" style="margin-bottom:1rem">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="btn sm outline" type="submit">Mark all as read</button></form>
+{% for n in notifications %}
+<div class="notif {{ 'unread' if not n.is_read }}">
+  <h3>{{ n.title }}</h3>
+  <div>{{ n.message }}</div>
+  <small>{{ n.created_at|pdt }}</small>
+  {% if not n.is_read %}
+  <form method="post" action="{{ url_for('mark_notifications_read') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="notification_id" value="{{ n.notification_id }}">
+    <button class="btn sm outline" type="submit">Mark as read</button></form>
+  {% endif %}
+</div>
+{% endfor %}
+{% else %}<div class="card"><p class="empty">You have no notifications.</p></div>{% endif %}

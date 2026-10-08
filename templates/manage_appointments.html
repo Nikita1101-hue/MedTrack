@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Manage Appointments{% endblock %}
+{% block content %}
+<h1>Appointments</h1>
+<div class="card">
+  {% if appointments %}
+  <div class="wrap"><table>
+    <tr><th>ID</th><th>Patient</th><th>Doctor</th><th>Date</th><th>Time</th><th>Reason</th><th>Status</th><th>Action</th></tr>
+    {% for a in appointments %}
+    <tr><td>{{ a.appointment_id }}</td><td>{{ a.patient_name }}<br><span class="muted">{{ a.patient_id }}</span></td><td>{{ a.doctor_name|dr }}<br><span class="muted">{{ a.doctor_id }}</span></td><td>{{ a.date|pdate }}</td><td>{{ a.time }}</td><td>{{ a.reason }}</td>
+      <td><span class="badge badge-{{ a.status|lower }}">{{ a.status }}</span></td>
+      <td>{% if a.status in ['Pending','Confirmed'] %}<form method="post" action="{{ url_for('manage_appointments') }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="appointment_id" value="{{ a.appointment_id }}"><button class="btn sm ghost-danger" type="submit">Cancel</button></form>{% else %}-{% endif %}</td></tr>
+    {% endfor %}
+  </table></div>
+  {% else %}<p class="empty">No appointments yet.</p>{% endif %}
+</div>
+{% endblock %}

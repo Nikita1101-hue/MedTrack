@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}{{ d.name|dr }}{% endblock %}
+{% block content %}
+<h1>{{ d.name|dr }}</h1>
+<p class="sub">{{ d.specialization }}</p>
+<div class="card">
+  <dl class="kv">
+    <dt>Doctor ID</dt><dd>{{ d.doctor_id }}</dd>
+    <dt>Email</dt><dd>{{ d.email }}</dd>
+    <dt>Phone</dt><dd>{{ d.phone }}</dd>
+    <dt>Qualification</dt><dd>{{ d.qualification }}</dd>
+    <dt>Experience</dt><dd>{{ d.experience }} Years</dd>
+    <dt>Availability</dt><dd>{{ d.availability }}</dd>
+    <dt>Hospital / Clinic</dt><dd>{{ d.hospital }}</dd>
+  </dl>
+  <div class="form-actions">
+    <a class="btn" href="{{ url_for('book_appointment', doctor_id=d.doctor_id) }}">Book Appointment</a>
+    <a class="btn outline" href="{{ url_for('patient_doctors') }}">Back to Doctors</a>
+  </div>
+</div>
+{% endblock %}
